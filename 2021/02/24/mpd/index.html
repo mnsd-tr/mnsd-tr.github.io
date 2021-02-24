@@ -9,7 +9,7 @@
     
     <title>
         
-            这是个测试 |
+            浅谈Linux下音乐app优劣 |
         
         Prime cote
     </title>
@@ -147,7 +147,7 @@
     <div class="article-content-container">
 
         <div class="article-title">
-            <span class="title-hover-animation">这是个测试</span>
+            <span class="title-hover-animation">浅谈Linux下音乐app优劣</span>
         </div>
 
         
@@ -170,6 +170,10 @@
 
     
     
+        <span class="article-wordcount article-meta-item">
+            <i class="fas fa-file-word"></i>&nbsp;<span>576 Words</span>
+        </span>
+    
     
     
 </div>
@@ -180,7 +184,64 @@
         
 
         <div class="article-content markdown-body">
-            
+            <h2 id="浅谈Linux下音乐app优劣"><a href="#浅谈Linux下音乐app优劣" class="headerlink" title="浅谈Linux下音乐app优劣"></a>浅谈Linux下音乐app优劣</h2><h3 id="网易云音乐"><a href="#网易云音乐" class="headerlink" title="网易云音乐"></a>网易云音乐</h3><p>Archlinux安装：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> sudo pacman -S netease-cloud-music</span></span><br></pre></td></tr></table></figure>
+
+<p>此版本是网易云与deepin合作出品，个人感觉兼容性不错，在各DE上都表现良好，甚至在WM上用起来也很舒服，这也是我没有推荐qq音乐的原因。</p>
+<h3 id="vscode插件"><a href="#vscode插件" class="headerlink" title="vscode插件"></a>vscode插件</h3><p>安装方式：vscode插件搜索 cloudmusic</p>
+<p>vscode插件，跨平台，win，linux，mac通用。简洁，由于内置了unblock等插件，乐库全，变敲代码边听音乐，支持底栏显示歌词，体验非常舒适。</p>
+<h3 id="yesplaymusic"><a href="#yesplaymusic" class="headerlink" title="yesplaymusic"></a>yesplaymusic</h3><p>Archlinux安装：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> yay -S yesplaymusic-appimage</span></span><br></pre></td></tr></table></figure>
+
+<p>跨平台，其他平台请到<a class="link"   target="_blank" rel="noopener" href="https://github.com/qier222/YesPlayMusic" >项目地址<i class="fas fa-external-link-alt"></i></a>自行下载。这个AUR包为用appimage打包的基于浏览器封装的h5程序，乐库全(unblock)，界面好看，抄袭applemusic的设计，保留网易云音乐的优点，支持网易云账号登陆，同步歌单。</p>
+<h3 id="mqd-ncmpcpp"><a href="#mqd-ncmpcpp" class="headerlink" title="mqd + ncmpcpp"></a>mqd + ncmpcpp</h3><h4 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h4><p>mqd(Music_Player_Daemon)做服务端，ncmcpp(可选)做客户端，这是linux下不少用户最喜欢的播放器之一。通常用于命令行下，因其可高度自定义的界面和低内存占用而占据不少用户量。特别是使用WM的用户更是深爱，搭配polybar添加插件等等，体验非常不错。但大多数人都因为其一堆的配置文件被劝退了，但实际接触并不复杂。</p>
+<p><a class="link"   target="_blank" rel="noopener" href="https://mpd.fandom.com/wiki/Music_Player_Daemon_Wiki" >MQD官方wiki<i class="fas fa-external-link-alt"></i></a></p>
+<p><a class="link"   target="_blank" rel="noopener" href="https://wiki.archlinux.org/index.php/Music_Player_Daemon_(简体中文)" >Archwiki-MPD<i class="fas fa-external-link-alt"></i></a></p>
+<p><a class="link"   target="_blank" rel="noopener" href="https://wiki.archlinux.org/index.php/Ncmpcpp" >Archwiki-ncmpcpp<i class="fas fa-external-link-alt"></i></a></p>
+<h4 id="浅谈mqd优缺点"><a href="#浅谈mqd优缺点" class="headerlink" title="浅谈mqd优缺点"></a>浅谈mqd优缺点</h4><ul>
+<li>优点<ul>
+<li>自身轻便低内存占用</li>
+<li>简洁美观，可自定义强</li>
+<li>符合unix哲学，keep it simple,stupid</li>
+<li>cs架构，客户端可选择性强，ncmpc，ncmpcpp(基于ncmpc)</li>
+</ul>
+</li>
+<li>缺点<ul>
+<li>配置复杂</li>
+<li>本地播放器</li>
+</ul>
+</li>
+</ul>
+<h4 id="环境要求"><a href="#环境要求" class="headerlink" title="环境要求"></a>环境要求</h4><p>Alsa(内核组件) 或 pauseaudio(代理)</p>
+<p>mpd启动后独占alsa</p>
+<h4 id="安装方式"><a href="#安装方式" class="headerlink" title="安装方式"></a>安装方式</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> sudo pacman -S mpd ncmpcpp</span></span><br></pre></td></tr></table></figure>
+
+
+
+<h4 id="配置文件"><a href="#配置文件" class="headerlink" title="配置文件"></a>配置文件</h4><p>~/.config/mpd/</p>
+<h4 id="坑"><a href="#坑" class="headerlink" title="坑"></a>坑</h4><ul>
+<li><p>报错文件或文件夹不存在</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> mkdir ~/.config/mpd/playlists</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> touch ~/.config/mpd/&#123;database,<span class="built_in">log</span>,pid,state,sticker.sql&#125;</span></span><br></pre></td></tr></table></figure>
+
+<p>配置文件里的可选文件夹需手动创建</p>
+</li>
+<li><p>多用户配置，利用systemd控制mpd.service，但是由于权限问题报错</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> systemctl status mpd</span></span><br></pre></td></tr></table></figure>
+
+<p>建议放弃，配置单用户模式、、、</p>
+</li>
+<li><p>端口占用 </p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> lsof -i:6600</span></span><br></pre></td></tr></table></figure>
+
+<p>查看哪个程序占用设定的端口，直接kill -9 pid杀掉</p>
+</li>
+<li><p>内存分配错误</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Failed to initialize io_uring: io_uring_queue_init() failed: Cannot allocate memory</span><br></pre></td></tr></table></figure>
+
+<p>直接忽略跳过</p>
+</li>
+</ul>
+
         </div>
 
         
@@ -398,7 +459,7 @@
         <aside class="page-aside">
             <div class="post-toc-wrap">
     <div class="post-toc">
-        
+        <ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%B5%85%E8%B0%88Linux%E4%B8%8B%E9%9F%B3%E4%B9%90app%E4%BC%98%E5%8A%A3"><span class="nav-number">1.</span> <span class="nav-text">浅谈Linux下音乐app优劣</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%BD%91%E6%98%93%E4%BA%91%E9%9F%B3%E4%B9%90"><span class="nav-number">1.1.</span> <span class="nav-text">网易云音乐</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#vscode%E6%8F%92%E4%BB%B6"><span class="nav-number">1.2.</span> <span class="nav-text">vscode插件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#yesplaymusic"><span class="nav-number">1.3.</span> <span class="nav-text">yesplaymusic</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#mqd-ncmpcpp"><span class="nav-number">1.4.</span> <span class="nav-text">mqd + ncmpcpp</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%AE%80%E4%BB%8B"><span class="nav-number">1.4.1.</span> <span class="nav-text">简介</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%B5%85%E8%B0%88mqd%E4%BC%98%E7%BC%BA%E7%82%B9"><span class="nav-number">1.4.2.</span> <span class="nav-text">浅谈mqd优缺点</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%8E%AF%E5%A2%83%E8%A6%81%E6%B1%82"><span class="nav-number">1.4.3.</span> <span class="nav-text">环境要求</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%AE%89%E8%A3%85%E6%96%B9%E5%BC%8F"><span class="nav-number">1.4.4.</span> <span class="nav-text">安装方式</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6"><span class="nav-number">1.4.5.</span> <span class="nav-text">配置文件</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%9D%91"><span class="nav-number">1.4.6.</span> <span class="nav-text">坑</span></a></li></ol></li></ol></li></ol>
     </div>
 </div>
         </aside>
