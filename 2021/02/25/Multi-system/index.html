@@ -1,0 +1,610 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="keywords" content="Blog Mnsd Cote">
+    <meta name="description" content="This is my personal website">
+    <meta name="author" content="mnsd">
+    
+    <title>
+        
+            安卓双系统的分析与实现 |
+        
+        Prime cote
+    </title>
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="shortcut icon" href="/pic/logo.png">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.4.1/source/css/font-awesome.min.css">
+    <script id="hexo-configurations">
+    let KEEP = window.KEEP || {};
+    KEEP.hexo_config = {"hostname":"blog.mnsd.xyz","root":"/","language":"en","path":"search.json"};
+    KEEP.theme_config = {"toc":{"enable":true,"number":true,"expand_all":true,"init_open":false},"style":{"primary_color":"#0066CC","avatar":"/pic/head.jpg","favicon":"/pic/logo.png","article_img_align":"left","left_side_width":"260px","content_max_width":"920px","hover":{"shadow":false,"scale":false},"first_screen":{"enable":true,"background_img":"/images/bg.svg","description":"Keep writing and Keep loving."},"scroll":{"progress_bar":{"enable":true},"percent":{"enable":true}}},"local_search":{"enable":true,"preload":true,"trigger":"auto","unescape":false},"code_copy":{"enable":true,"style":"default"},"pjax":{"enable":false},"lazyload":{"enable":false},"version":"3.4.1"};
+    KEEP.language_ago = {"second":"%s seconds ago","minute":"%s minutes ago","hour":"%s hours ago","day":"%s days ago","week":"%s weeks ago","month":"%s months ago","year":"%s years ago"};
+  </script>
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+
+<body>
+<div class="progress-bar-container">
+    
+        <span class="scroll-progress-bar"></span>
+    
+
+    
+</div>
+
+
+<main class="page-container">
+
+    
+
+    <div class="page-main-content">
+
+        <div class="page-main-content-top">
+            <header class="header-wrapper">
+
+    <div class="header-content">
+        <div class="left">
+            <a class="logo-title" href="/">
+                Prime cote
+            </a>
+        </div>
+
+        <div class="right">
+            <div class="pc">
+                <ul class="menu-list">
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/"
+                            >
+                                HOME
+                            </a>
+                        </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/archives"
+                            >
+                                ARCHIVES
+                            </a>
+                        </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/links"
+                            >
+                                LINKS
+                            </a>
+                        </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/about"
+                            >
+                                ABOUT
+                            </a>
+                        </li>
+                    
+                    
+                        <li class="menu-item search search-popup-trigger">
+                            <i class="fas fa-search"></i>
+                        </li>
+                    
+                </ul>
+            </div>
+            <div class="mobile">
+                
+                    <div class="icon-item search search-popup-trigger"><i class="fas fa-search"></i></div>
+                
+                <div class="icon-item menu-bar">
+                    <div class="menu-bar-middle"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="header-drawer">
+        <ul class="drawer-menu-list">
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/">HOME</a>
+                </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/archives">ARCHIVES</a>
+                </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/links">LINKS</a>
+                </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/about">ABOUT</a>
+                </li>
+            
+        </ul>
+    </div>
+
+    <div class="window-mask"></div>
+
+</header>
+
+
+        </div>
+
+        <div class="page-main-content-middle">
+
+            <div class="main-content">
+
+                
+                    <div class="fade-in-down-animation">
+    <div class="article-content-container">
+
+        <div class="article-title">
+            <span class="title-hover-animation">安卓双系统的分析与实现</span>
+        </div>
+
+        
+            <div class="article-header">
+                <div class="avatar">
+                    <img src="/pic/head.jpg">
+                </div>
+                <div class="info">
+                    <div class="author">
+                        <span class="name">mnsd</span>
+                        
+                    </div>
+                    <div class="meta-info">
+                        <div class="article-meta-info">
+    <span class="article-date article-meta-item">
+        <i class="fas fa-edit"></i>&nbsp;2021-02-25 12:25:05
+    </span>
+    
+    
+
+    
+    
+        <span class="article-wordcount article-meta-item">
+            <i class="fas fa-file-word"></i>&nbsp;<span>2.3k Words</span>
+        </span>
+    
+    
+    
+</div>
+
+                    </div>
+                </div>
+            </div>
+        
+
+        <div class="article-content markdown-body">
+            <p><em>注:本文为资深刷机用户推荐，小白请勿轻易尝试，可作为分析思路浏览，以下操作如未说明则都需解锁Bootloader锁(如果有的话)，并已获得root权限。</em></p>
+<h3 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h3><p>首先你应对电脑多系统有大致了解，BIOS如何引导操作系统，Bootloader是干了什么事，怎样通过磁盘分区、多重引导等实现多系统。相对于手机这些嵌入式系统，由于牵涉到各家硬件驱动是否开源等等一些问题，通过类似电脑端grub，systemd-boot，refind等达到多重引导是较难实现的。但是通过转换思路，既然操作系统它是通过挂载对应磁盘分区进行之后的一系列操作，是否又可以通过改变分区表(或者说特定分区指向)从而达到敌不动我动的效果，从而欺骗了bootloader。</p>
+<h3 id="安卓双系统底层实现原理"><a href="#安卓双系统底层实现原理" class="headerlink" title="安卓双系统底层实现原理"></a>安卓双系统底层实现原理</h3><h4 id="磁盘分区工具的选择"><a href="#磁盘分区工具的选择" class="headerlink" title="磁盘分区工具的选择"></a>磁盘分区工具的选择</h4><p>方向既然已经清楚了，那接下来就是具体思路。由于安卓系统本就基于linux内核，通过一些C/C++库支撑，每个apk应用都是运行在ART(Dalvik)虚拟机之上。则可以尝试通过一些磁盘分区工具尝试对分区进行删改，在arm架构处理器上处理gpt分区表用的较多的GNU工具有sgdisk、parted等，可自行选择。由于大多数手机系统都已经内置sgdisk工具，本文以sgdisk举例，如系统未内置则需要自行解决，解决方法参考linux。</p>
+<h4 id="安卓手机磁盘分区"><a href="#安卓手机磁盘分区" class="headerlink" title="安卓手机磁盘分区"></a>安卓手机磁盘分区</h4><p>在对磁盘进行重分区之前，有必要先对手机内存(如未说明则后文内存指手机内部存储，即等价于电脑硬盘，非电脑内存条)驱动器有一定了解，目前市面上手机内存主要为ufs闪存，有少部分为emmc闪存，在磁盘分区处理上有稍微差异，本文主要以ufs闪存为例。ufs闪存的手机通常把逻辑驱动器划分为sda,sdb,sdc,sdd,sde,sdf等，设备分别映射文件到/dev/block/sda,/dev/block/sdb…等，emmc则映射到/dev/block/mmcblk0…，磁盘分区表记录了该逻辑驱动器上的各分区始末位置、分区大小等信息，位于该逻辑驱动器的前n个块。</p>
+<p>mix2s分区表信息如下：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> sgdisk --<span class="built_in">print</span> /dev/block/sda</span></span><br><span class="line">Disk /dev/block/sda: 14419968 sectors, 55.0 GiB</span><br><span class="line">Logical sector size: 4096 bytes</span><br><span class="line">Disk identifier (GUID): E9F67F91-775B-75A5-2D93-3CDF9DEB39EF</span><br><span class="line">Partition table holds up to 32 entries</span><br><span class="line">First usable sector is 6, last usable sector is 14419962</span><br><span class="line">Partitions will be aligned on 2-sector boundaries</span><br><span class="line">Total free space is 0 sectors (0 bytes)</span><br><span class="line"></span><br><span class="line">Number  Start (sector)    End (sector)  Size       Code  Name</span><br><span class="line">   1               6               9   16.0 KiB    FFFF  switch</span><br><span class="line">   2              10              17   32.0 KiB    FFFF  ssd</span><br><span class="line">......         ......         ......</span><br><span class="line">  18           98304          311295   832.0 MiB   FFFF  cust</span><br><span class="line">  19          311296          327679   64.0 MiB    FFFF  recovery</span><br><span class="line">  20          327680          393215   256.0 MiB   FFFF  cache</span><br><span class="line">  21          393216        14419962   53.5 GiB    FFFF  userdata</span><br><span class="line">  </span><br><span class="line"><span class="meta">$</span><span class="bash"> sgdisk --<span class="built_in">print</span> /dev/block/sde</span></span><br><span class="line">Disk /dev/block/sde: 1179648 sectors, 4.5 GiB</span><br><span class="line">Logical sector size: 4096 bytes</span><br><span class="line">Disk identifier (GUID): 09A16BAE-F899-2669-BA14-602F3A220D2F</span><br><span class="line">Partition table holds up to 64 entries</span><br><span class="line">First usable sector is 6, last usable sector is 1179642</span><br><span class="line">Partitions will be aligned on 2-sector boundaries</span><br><span class="line">Total free space is 16379 sectors (64.0 MiB)</span><br><span class="line"></span><br><span class="line">Number  Start (sector)    End (sector)  Size       Code  Name</span><br><span class="line">   1               6              13   32.0 KiB    FFFF  sec</span><br><span class="line">   2              14              21   32.0 KiB    FFFF  limits</span><br><span class="line">......         ......         ......</span><br><span class="line">  42           24576           32767   32.0 MiB    FFFF  splash</span><br><span class="line">  43           32768           40959   32.0 MiB    FFFF  logo</span><br><span class="line">  44           40960           49151   32.0 MiB    FFFF  dsp</span><br><span class="line">  45           49152           65535   64.0 MiB    FFFF  boot</span><br><span class="line">  46           65536          114687   192.0 MiB   0700  modem</span><br><span class="line">  47          114688          376831   1024.0 MiB  FFFF  vendor</span><br><span class="line">  48          376832         1163263   3.0 GiB     FFFF  system</span><br><span class="line">  49         1163264         1179642   64.0 MiB    FFFF  last_parti</span><br></pre></td></tr></table></figure>
+
+
+
+<h4 id="sgdisk使用方法"><a href="#sgdisk使用方法" class="headerlink" title="sgdisk使用方法"></a>sgdisk使用方法</h4><p>sgdisk工具需要在su下使用，详细使用方法可在终端输入sgdisk按回车查看<br>以下列出几个需要用到的几个命令</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> sgdisk --<span class="built_in">print</span> /dev/block/sda <span class="comment">#打印驱动器sda分区表</span></span></span><br><span class="line"><span class="meta">$</span><span class="bash"> sgdisk --new=26:12345:34567 <span class="comment">#新建分区号为26的分区，从第12345块开始，到34567块结束</span></span></span><br><span class="line"><span class="meta">$</span><span class="bash"> sgdisk --new=27:0:+512M /dev/block/sda <span class="comment">#新建分区号为27的分区，从第一个可以容下512M的空间的起始位置开始，建立一个512M的分区</span></span></span><br><span class="line"><span class="meta">$</span><span class="bash"> sgdisk --new=0:0:0 /dev/block/sda <span class="comment">#从第一个可用分区号开始，从第一个可用分区块位置开始，到结束</span></span></span><br><span class="line"><span class="meta">$</span><span class="bash"> sgdisk --change-name=18:boot /dev/block/sda <span class="comment">#将分区号为18的分区改名为boot</span></span></span><br><span class="line"><span class="meta">$</span><span class="bash"> sgdisk --delete=21 /dev/block/sda <span class="comment">#删除分区号为21的分区</span></span></span><br></pre></td></tr></table></figure>
+<p><em>注:以上命令均需指定驱动器位置，不指定则命令无任何作用。电脑上驱动器一般为/dev/sda，手机上稍微有不同之处，通常为/dev/block/sda，且执行命令后重启生效，所以在未完成全部操作之前切勿重启手机，重启即黑砖，需9008复活。后悔药：在结束之前可随时刷入最初备份的原分区表进行回退</em></p>
+<h3 id="双系统共存方法"><a href="#双系统共存方法" class="headerlink" title="双系统共存方法"></a>双系统共存方法</h3><h4 id="结构概览"><a href="#结构概览" class="headerlink" title="结构概览"></a>结构概览</h4><img src="/pic/sda.png" />
+
+<img src="/pic/sde.png" />
+
+<h4 id="双分区的选择"><a href="#双分区的选择" class="headerlink" title="双分区的选择"></a>双分区的选择</h4><p>接下来，要通过对不同系统差异的分区进行重分区，做双分区处理，相同的当然就没必要了。</p>
+<table>
+<thead>
+<tr>
+<th>分区名</th>
+<th>作用</th>
+<th>所在驱动器（基于mix2s示范）</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>system</td>
+<td>系统分区</td>
+<td>sde</td>
+</tr>
+<tr>
+<td>vendor</td>
+<td>驱动分区</td>
+<td>sde</td>
+</tr>
+<tr>
+<td>boot</td>
+<td>内核分区</td>
+<td>sde</td>
+</tr>
+<tr>
+<td>userdata</td>
+<td>用户数据分区</td>
+<td>sda</td>
+</tr>
+<tr>
+<td>dsp</td>
+<td>可能和媒体声音有关</td>
+<td>sde</td>
+</tr>
+<tr>
+<td>modem</td>
+<td>基带解调器</td>
+<td>sde</td>
+</tr>
+</tbody></table>
+<p>由于开机时bootloader加载时挂载分区是根据分区名称进行挂载，只认名字，所以要实现双系统，就需要将这些分区可以进行单独分开(自由选择分开哪些分区，此处只做示范)，分为system1，system2，vendor1，vendor2，boot1，boot2，userdata1，userdata2，dsp1，dsp2，modem1，modem2，再进一步做屏蔽处理。</p>
+<h4 id="分区表的备份"><a href="#分区表的备份" class="headerlink" title="分区表的备份"></a>分区表的备份</h4><p>可以用sgdisk等工具自带的备份命令直接备份，也可直接用dd命令拷贝出驱动器前512个块（已完整包含该驱动器所有分区表信息）</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> dd <span class="keyword">if</span>=/dev/block/sda of=/sdcard/sda_fqb bs=512 count=1024 <span class="comment">#从起始位置开始拷贝sda驱动器上的块，每次512B，累计1024次，即512K</span></span></span><br></pre></td></tr></table></figure>
+
+
+
+<h4 id="系统一分区的实例"><a href="#系统一分区的实例" class="headerlink" title="系统一分区的实例"></a>系统一分区的实例</h4><p>实现双系统的切换，则我们需要两张分区表，一张保存系统一的磁盘分区情况如下，此时系统二对应分区被屏蔽掉，开机不加载</p>
+<table>
+<thead>
+<tr>
+<th>系统一</th>
+<th>系统二（不加载）</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>system(sde)</td>
+<td>system2(sda)</td>
+</tr>
+<tr>
+<td>vendor(sde)</td>
+<td>vendor2(sda)</td>
+</tr>
+<tr>
+<td>boot(sde)</td>
+<td>boot2(sda)</td>
+</tr>
+<tr>
+<td>userdata(sda)</td>
+<td>userdata2(sda)</td>
+</tr>
+</tbody></table>
+<p>代码如下：<em>（基于miMIX2s的示范）</em></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> dd <span class="keyword">if</span>=/dev/block/sda bs=512 count=1024 of=/sdcard/sda <span class="comment">#备份单系统时的分区表，后悔药</span></span></span><br><span class="line"><span class="meta">$</span><span class="bash"> dd <span class="keyword">if</span>=/dev/block/sde bs=512 count=1024 of=/sdcard/sde</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> sgdisk --delete=21 /dev/block/sda <span class="comment">#删掉原data，留下空闲空间</span></span></span><br><span class="line"><span class="meta">$</span><span class="bash"> sgdisk --new=21:0:+64M /dev/block/sda --change-name=21:boot2 /dev/block/sda <span class="comment">#新建另一个系统相关分区</span></span></span><br><span class="line"><span class="meta">$</span><span class="bash"> sgdisk --new=22:0:+1024M /dev/block/sda --change-name=22:vendor2 /dev/block/sda</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> sgdisk --new=23:0:+3584M /dev/block/sda --change-name=23:system2 /dev/block/sda</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> sgdisk --new=24:0:+5632M /dev/block/sda --change-name=24:userdata2 /dev/block/sda</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> sgdisk --new=25:0:+40000M /dev/block/sda --change-name=25:userdata /dev/block/sda <span class="comment">#将剩余空间还非配给这个系统</span></span></span><br><span class="line"><span class="meta">$</span><span class="bash"> dd <span class="keyword">if</span>=/dev/block/sda bs=512 count=1024 of=/sdcard/sda_fqb1</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> dd <span class="keyword">if</span>=/dev/block/sde bs=512 count=1024 of=/sdcard/sde_fqb1</span></span><br></pre></td></tr></table></figure>
+
+
+
+<h4 id="系统二分区的实例"><a href="#系统二分区的实例" class="headerlink" title="系统二分区的实例"></a>系统二分区的实例</h4><p>另一张保存系统二的磁盘分区情况如下，此时系统一对应分区被屏蔽掉，开机不加载</p>
+<table>
+<thead>
+<tr>
+<th>系统一（不加载）</th>
+<th>系统二</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>system1</td>
+<td>system</td>
+</tr>
+<tr>
+<td>vendor1</td>
+<td>vendor</td>
+</tr>
+<tr>
+<td>boot1</td>
+<td>boot</td>
+</tr>
+<tr>
+<td>userdata1</td>
+<td>userdata</td>
+</tr>
+</tbody></table>
+<p>代码如下：<em>（基于miMIX2s的示范）</em></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> sgdisk --change-name=25:userdata1 /dev/block/sda</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> sgdisk --change-name=21:boot /dev/block/sda</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> sgdisk --change-name=22:vendor /dev/block/sda</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> sgdisk --change-name=23:system /dev/block/sda</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> sgdisk --change-name=24:userdata /dev/block/sda</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> sgdisk --change-name=45:boot1 /dev/block/sde</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> sgdisk --change-name=47:vendor1 /dev/block/sde</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> sgdisk --change-name=48:system1 /dev/block/sde</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> dd <span class="keyword">if</span>=/dev/block/sda bs=512 count=1024 of=/sdcard/sda_fqb2</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> dd <span class="keyword">if</span>=/dev/block/sde bs=512 count=1024 of=/sdcard/sde_fqb2</span></span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="双系统的切换"><a href="#双系统的切换" class="headerlink" title="双系统的切换"></a>双系统的切换</h3><p>每次只要载入不同的分区表信息，就能实现系统的切换，注意一定要保管好分区表信息不可丢失</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> dd <span class="keyword">if</span>=/sdcard/sda_fqb1 of=/dev/block/sda bs=512 count=1024 <span class="comment">#将系统一sda分区表信息载入</span></span></span><br><span class="line"><span class="meta">$</span><span class="bash"> dd <span class="keyword">if</span>=/sdcard/sde_fqb1 of=/dev/block/sde bs=512 count=1024 <span class="comment">#将系统一sde分区表信息载入</span></span></span><br></pre></td></tr></table></figure>
+
+<p>载入相关驱动器分区表信息即可切换到系统一。系统二同理</p>
+<h3 id="双系统方案的优化"><a href="#双系统方案的优化" class="headerlink" title="双系统方案的优化"></a>双系统方案的优化</h3><h4 id="将更多的分区独立开来"><a href="#将更多的分区独立开来" class="headerlink" title="将更多的分区独立开来"></a>将更多的分区独立开来</h4><p>当多个系统之间安卓底层版本不同时极易出现各种bug，即部分分区被共用所产生的问题，例如modem导致基带问题、dsp导致媒体声音问题。解决方案为将更多的分区给分开，当熟练掌握原理后即可仿照上例实现，但部分核心分区不可随意动手，切勿贪心。</p>
+<h4 id="切换方式多样化"><a href="#切换方式多样化" class="headerlink" title="切换方式多样化"></a>切换方式多样化</h4><p>将分区表或打包有分区表的卡刷包放至例如cust等空闲分区，通过如下方式切换</p>
+<ul>
+<li>终端命令切换。即上方提到的方式</li>
+<li>shell脚本切换。将命令打包添加至shell脚本，每次执行脚本即可</li>
+<li>卡刷包切换。将分区表打包进卡刷包到rec卡刷</li>
+<li>recovery切换。将打包好的卡刷包打包进recovery.img，需自行搜索解包工具</li>
+<li>app切换。</li>
+</ul>
+<h4 id="分区共享数据"><a href="#分区共享数据" class="headerlink" title="分区共享数据"></a>分区共享数据</h4><p>将未挂载的另外一个系统的相应分区挂载到本系统。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> mkdir /mnt/data_2</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> mount -t ext4 -o rw /dev/block/by-name/userdata2 /mnt/data_2</span></span><br></pre></td></tr></table></figure>
+
+
+        </div>
+
+        
+
+        
+            <div class="article-nav">
+                
+                
+                    <div class="article-next">
+                        <a class="next"
+                           rel="next"
+                           href="/2021/02/24/mpd/"
+                        >
+                            <span class="title flex-center">
+                                <span class="post-nav-title-item">浅谈Linux下音乐app优劣</span>
+                                <span class="post-nav-item">Next posts</span>
+                            </span>
+                            <span class="right arrow-icon flex-center">
+                              <i class="fas fa-chevron-right"></i>
+                            </span>
+                        </a>
+                    </div>
+                
+            </div>
+        
+
+        
+            <div class="comment-container">
+                <div class="comments-container">
+    <div id="comment-anchor"></div>
+    <div class="comment-area-title">
+        <i class="fas fa-comments">&nbsp;Comments</i>
+    </div>
+    
+
+        
+            
+    <div class="valine-container">
+        <script 
+                src="//cdn.jsdelivr.net/npm/valine@latest/dist/Valine.min.js"></script>
+        <div id="vcomments"></div>
+        <script >
+            function loadValine() {
+                new Valine({
+                    el: '#vcomments',
+                    appId: 'omhjooDG9E5RWOpM8AAoAKhC-gzGzoHsz',
+                    appKey: 'TJhbP2v9Dh4aBqhHANlcHCCu',
+                    meta: ['nick', 'mail', 'link'],
+                    avatar: 'wavatar',
+                    enableQQ: true,
+                    placeholder: '尽情吐槽吧~',
+                    lang: 'en'.toLowerCase()
+                });
+
+                function getAuthor(language) {
+                    switch (language) {
+                        case 'en':
+                            return 'Author';
+                        case 'zh-CN':
+                            return '博主';
+                        default:
+                            return 'Master';
+                    }
+                }
+
+                // Add "Author" identify
+                const getValineDomTimer = setInterval(() => {
+                    const vcards = document.querySelectorAll('#vcomments .vcards .vcard');
+                    if (vcards.length > 0) {
+                        let author = 'mnsd';
+
+                        if (author) {
+                            for (let vcard of vcards) {
+                                const vnick_dom = vcard.querySelector('.vhead .vnick');
+                                const vnick = vnick_dom.innerHTML;
+                                if (vnick === author) {
+                                    vnick_dom.innerHTML = `${vnick} <span class="author">${getAuthor(KEEP.hexo_config.language)}</span>`
+                                }
+                            }
+                        }
+                        clearInterval(getValineDomTimer);
+                    } else {
+                        clearInterval(getValineDomTimer);
+                    }
+                }, 2000);
+            }
+
+            if ('false') {
+                const loadValineTimeout = setTimeout(() => {
+                    loadValine();
+                    clearTimeout(loadValineTimeout);
+                }, 1000);
+            } else {
+                window.addEventListener('DOMContentLoaded', loadValine);
+            }
+        </script>
+    </div>
+
+
+
+        
+    
+</div>
+
+            </div>
+        
+    </div>
+</div>
+
+
+                
+            </div>
+
+        </div>
+
+        <div class="page-main-content-bottom">
+            <footer class="footer">
+    <div class="info-container">
+        <div class="copyright-info info-item">
+            &copy;
+            
+              <span>2020</span>&nbsp;-&nbsp;
+            
+            2021&nbsp;<i class="fas fa-heart icon-animate"></i>&nbsp;<a href="/">mnsd</a>
+        </div>
+        
+            <script async  src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+            <div class="website-count info-item">
+                
+                
+                    <span id="busuanzi_container_site_pv">
+                        Totalview&nbsp;<span id="busuanzi_value_site_pv"></span>
+                    </span>
+                
+            </div>
+        
+        <div class="theme-info info-item">
+            Powered by <a target="_blank" href="https://hexo.io">Hexo</a>&nbsp;|&nbsp;Theme&nbsp;<a class="theme-version" target="_blank" href="https://github.com/XPoet/hexo-theme-keep">Keep v3.4.1</a>
+        </div>
+        
+    </div>
+</footer>
+
+        </div>
+    </div>
+
+    
+        <div class="post-tools">
+            <div class="post-tools-container">
+    <ul class="tools-list">
+        <!-- TOC aside toggle -->
+        
+            <li class="tools-item page-aside-toggle">
+                <i class="fas fa-outdent"></i>
+            </li>
+        
+
+        <!-- go comment -->
+        
+            <li class="go-comment">
+                <i class="fas fa-comment"></i>
+            </li>
+        
+    </ul>
+</div>
+
+        </div>
+    
+
+    <div class="right-bottom-side-tools">
+        <div class="side-tools-container">
+    <ul class="side-tools-list">
+        <li class="tools-item tool-font-adjust-plus flex-center">
+            <i class="fas fa-search-plus"></i>
+        </li>
+
+        <li class="tools-item tool-font-adjust-minus flex-center">
+            <i class="fas fa-search-minus"></i>
+        </li>
+
+        <li class="tools-item tool-expand-width flex-center">
+            <i class="fas fa-arrows-alt-h"></i>
+        </li>
+
+        <li class="tools-item tool-dark-light-toggle flex-center">
+            <i class="fas fa-moon"></i>
+        </li>
+
+        <!-- rss -->
+        
+
+        
+
+        <li class="tools-item tool-scroll-to-bottom flex-center">
+            <i class="fas fa-arrow-down"></i>
+        </li>
+    </ul>
+
+    <ul class="exposed-tools-list">
+        <li class="tools-item tool-toggle-show flex-center">
+            <i class="fas fa-cog fa-spin"></i>
+        </li>
+        
+            <li class="tools-item tool-scroll-to-top flex-center">
+                <i class="arrow-up fas fa-arrow-up"></i>
+                <span class="percent"></span>
+            </li>
+        
+    </ul>
+</div>
+
+    </div>
+
+    
+        <aside class="page-aside">
+            <div class="post-toc-wrap">
+    <div class="post-toc">
+        <ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%BC%95%E8%A8%80"><span class="nav-number">1.</span> <span class="nav-text">引言</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AE%89%E5%8D%93%E5%8F%8C%E7%B3%BB%E7%BB%9F%E5%BA%95%E5%B1%82%E5%AE%9E%E7%8E%B0%E5%8E%9F%E7%90%86"><span class="nav-number">2.</span> <span class="nav-text">安卓双系统底层实现原理</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%A3%81%E7%9B%98%E5%88%86%E5%8C%BA%E5%B7%A5%E5%85%B7%E7%9A%84%E9%80%89%E6%8B%A9"><span class="nav-number">2.1.</span> <span class="nav-text">磁盘分区工具的选择</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%AE%89%E5%8D%93%E6%89%8B%E6%9C%BA%E7%A3%81%E7%9B%98%E5%88%86%E5%8C%BA"><span class="nav-number">2.2.</span> <span class="nav-text">安卓手机磁盘分区</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#sgdisk%E4%BD%BF%E7%94%A8%E6%96%B9%E6%B3%95"><span class="nav-number">2.3.</span> <span class="nav-text">sgdisk使用方法</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8F%8C%E7%B3%BB%E7%BB%9F%E5%85%B1%E5%AD%98%E6%96%B9%E6%B3%95"><span class="nav-number">3.</span> <span class="nav-text">双系统共存方法</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%BB%93%E6%9E%84%E6%A6%82%E8%A7%88"><span class="nav-number">3.1.</span> <span class="nav-text">结构概览</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%8F%8C%E5%88%86%E5%8C%BA%E7%9A%84%E9%80%89%E6%8B%A9"><span class="nav-number">3.2.</span> <span class="nav-text">双分区的选择</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%88%86%E5%8C%BA%E8%A1%A8%E7%9A%84%E5%A4%87%E4%BB%BD"><span class="nav-number">3.3.</span> <span class="nav-text">分区表的备份</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%B3%BB%E7%BB%9F%E4%B8%80%E5%88%86%E5%8C%BA%E7%9A%84%E5%AE%9E%E4%BE%8B"><span class="nav-number">3.4.</span> <span class="nav-text">系统一分区的实例</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%B3%BB%E7%BB%9F%E4%BA%8C%E5%88%86%E5%8C%BA%E7%9A%84%E5%AE%9E%E4%BE%8B"><span class="nav-number">3.5.</span> <span class="nav-text">系统二分区的实例</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8F%8C%E7%B3%BB%E7%BB%9F%E7%9A%84%E5%88%87%E6%8D%A2"><span class="nav-number">4.</span> <span class="nav-text">双系统的切换</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8F%8C%E7%B3%BB%E7%BB%9F%E6%96%B9%E6%A1%88%E7%9A%84%E4%BC%98%E5%8C%96"><span class="nav-number">5.</span> <span class="nav-text">双系统方案的优化</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%B0%86%E6%9B%B4%E5%A4%9A%E7%9A%84%E5%88%86%E5%8C%BA%E7%8B%AC%E7%AB%8B%E5%BC%80%E6%9D%A5"><span class="nav-number">5.1.</span> <span class="nav-text">将更多的分区独立开来</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%88%87%E6%8D%A2%E6%96%B9%E5%BC%8F%E5%A4%9A%E6%A0%B7%E5%8C%96"><span class="nav-number">5.2.</span> <span class="nav-text">切换方式多样化</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%88%86%E5%8C%BA%E5%85%B1%E4%BA%AB%E6%95%B0%E6%8D%AE"><span class="nav-number">5.3.</span> <span class="nav-text">分区共享数据</span></a></li></ol></li></ol>
+    </div>
+</div>
+        </aside>
+    
+
+    <div class="image-viewer-container">
+    <img src="">
+</div>
+
+
+    
+        <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+          <span class="search-input-field-pre">
+            <i class="fas fa-keyboard"></i>
+          </span>
+            <div class="search-input-container">
+                <input autocomplete="off"
+                       autocorrect="off"
+                       autocapitalize="off"
+                       placeholder="Search..."
+                       spellcheck="false"
+                       type="search"
+                       class="search-input"
+                >
+            </div>
+            <span class="popup-btn-close">
+                <i class="fas fa-times"></i>
+            </span>
+        </div>
+        <div id="search-result">
+            <div id="no-result">
+                <i class="fas fa-spinner fa-pulse fa-5x fa-fw"></i>
+            </div>
+        </div>
+    </div>
+</div>
+
+    
+
+</main>
+
+
+
+<script src="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.4.1/source/js/utils.js"></script><script src="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.4.1/source/js/main.js"></script><script src="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.4.1/source/js/header-shrink.js"></script><script src="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.4.1/source/js/back2top.js"></script><script src="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.4.1/source/js/dark-light-toggle.js"></script>
+
+
+    <script src="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.4.1/source/js/local-search.js"></script>
+
+
+
+    <script src="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.4.1/source/js/code-copy.js"></script>
+
+
+
+
+<div class="post-scripts">
+    
+        <script src="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.4.1/source/js/left-side-toggle.js"></script><script src="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.4.1/source/js/libs/anime.min.js"></script><script src="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.4.1/source/js/toc.js"></script>
+    
+</div>
+
+
+
+</body>
+</html>
