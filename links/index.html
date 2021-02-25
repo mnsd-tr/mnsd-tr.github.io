@@ -9,7 +9,7 @@
     
     <title>
         
-            About |
+            Links |
         
         Prime cote
     </title>
@@ -147,89 +147,36 @@
     <div class="page-template-container">
         
         
+            <div class="friends-link-container">
+    <ul class="friends-link-list">
+        
+            <li class="friends-link-item">
+                <a target="_blank" rel="noopener" href="http://video.mnsd.xyz/">
+                    <div class="content">
+                        <div class="avatar radius">
+                            
+                                <img class="radius" alt="视频解析接口" src="/pic/head.jpg">
+                            
+                        </div>
+                        <div class="info">
+                            <div class="name ellipsis">视频解析接口</div>
+                            <div class="description ellipsis">腾讯视频、爱奇艺、优酷、芒果解析</div>
+                        </div>
+                    </div>
+                </a>
+            </li>
+        
+    </ul>
+    <div class="clear"></div>
+</div>
+
+        
         <div class="page-template-content markdown-body">
             
-                <h2 id="Links"><a href="#Links" class="headerlink" title="Links"></a>Links</h2><h4 id="请留下你们的主页！"><a href="#请留下你们的主页！" class="headerlink" title="请留下你们的主页！"></a>请留下你们的主页！</h4>
+                
             
         </div>
         <div class="page-template-comments">
-            
-                <div class="comments-container">
-    <div id="comment-anchor"></div>
-    <div class="comment-area-title">
-        <i class="fas fa-comments">&nbsp;Comments</i>
-    </div>
-    
-
-        
-            
-    <div class="valine-container">
-        <script 
-                src="//cdn.jsdelivr.net/npm/valine@latest/dist/Valine.min.js"></script>
-        <div id="vcomments"></div>
-        <script >
-            function loadValine() {
-                new Valine({
-                    el: '#vcomments',
-                    appId: 'omhjooDG9E5RWOpM8AAoAKhC-gzGzoHsz',
-                    appKey: 'TJhbP2v9Dh4aBqhHANlcHCCu',
-                    meta: ['nick', 'mail', 'link'],
-                    avatar: 'wavatar',
-                    enableQQ: true,
-                    placeholder: '尽情吐槽吧~',
-                    lang: 'en'.toLowerCase()
-                });
-
-                function getAuthor(language) {
-                    switch (language) {
-                        case 'en':
-                            return 'Author';
-                        case 'zh-CN':
-                            return '博主';
-                        default:
-                            return 'Master';
-                    }
-                }
-
-                // Add "Author" identify
-                const getValineDomTimer = setInterval(() => {
-                    const vcards = document.querySelectorAll('#vcomments .vcards .vcard');
-                    if (vcards.length > 0) {
-                        let author = 'mnsd';
-
-                        if (author) {
-                            for (let vcard of vcards) {
-                                const vnick_dom = vcard.querySelector('.vhead .vnick');
-                                const vnick = vnick_dom.innerHTML;
-                                if (vnick === author) {
-                                    vnick_dom.innerHTML = `${vnick} <span class="author">${getAuthor(KEEP.hexo_config.language)}</span>`
-                                }
-                            }
-                        }
-                        clearInterval(getValineDomTimer);
-                    } else {
-                        clearInterval(getValineDomTimer);
-                    }
-                }, 2000);
-            }
-
-            if ('false') {
-                const loadValineTimeout = setTimeout(() => {
-                    loadValine();
-                    clearTimeout(loadValineTimeout);
-                }, 1000);
-            } else {
-                window.addEventListener('DOMContentLoaded', loadValine);
-            }
-        </script>
-    </div>
-
-
-
-        
-    
-</div>
-
             
         </div>
     </div>
