@@ -9,7 +9,7 @@
     
     <title>
         
-            Archive: 2021/3 |
+            简记rsync使用方法 |
         
         Prime cote
     </title>
@@ -64,7 +64,7 @@
                         </li>
                     
                         <li class="menu-item">
-                            <a class="active"
+                            <a class=""
                                href="/archives"
                             >
                                 ARCHIVES
@@ -114,7 +114,7 @@
                 </li>
             
                 <li class="drawer-menu-item flex-center">
-                    <a class="active"
+                    <a class=""
                        href="/archives">ARCHIVES</a>
                 </li>
             
@@ -144,59 +144,160 @@
 
                 
                     <div class="fade-in-down-animation">
-    <div class="archive-container ">
+    <div class="article-content-container">
+
+        <div class="article-title">
+            <span class="title-hover-animation">简记rsync使用方法</span>
+        </div>
+
         
-<div class="archive-list-container">
+            <div class="article-header">
+                <div class="avatar">
+                    <img src="/pic/head.jpg">
+                </div>
+                <div class="info">
+                    <div class="author">
+                        <span class="name">mnsd</span>
+                        
+                    </div>
+                    <div class="meta-info">
+                        <div class="article-meta-info">
+    <span class="article-date article-meta-item">
+        <i class="fas fa-edit"></i>&nbsp;2021-03-17 11:49:35
+    </span>
     
-        <section class="archive-item">
-            <div class="archive-item-header">
-                <span class="archive-year">2021</span>
-                <span class="archive-year-post-count">[5]</span>
-            </div>
-            <ul class="article-list">
-                
-                    <li class="article-item">
-                        <a class="article-title"
-                           href="/2021/03/17/rsync/"
-                        >简记rsync使用方法</a>
-                        <span class="article-date">03-17</span>
-                    </li>
-                
-                    <li class="article-item">
-                        <a class="article-title"
-                           href="/2021/03/02/polybar%E8%B7%91%E9%A9%AC%E7%81%AF%E5%AE%9E%E6%97%B6%E6%8E%A8%E9%80%81up%E6%9C%80%E6%96%B0%E5%8A%A8%E6%80%81/"
-                        >polybar跑马灯实时推送up最新动态</a>
-                        <span class="article-date">03-02</span>
-                    </li>
-                
-                    <li class="article-item">
-                        <a class="article-title"
-                           href="/2021/02/28/%E8%A7%A3%E5%86%B3linux%E4%B8%8B%E6%96%B0%E7%89%88pycharm%E7%AD%89%E4%B8%8D%E8%83%BD%E8%BE%93%E5%85%A5%E4%B8%AD%E6%96%87%E9%97%AE%E9%A2%98/"
-                        >解决linux下新版pycharm等不能输入中文问题</a>
-                        <span class="article-date">02-28</span>
-                    </li>
-                
-                    <li class="article-item">
-                        <a class="article-title"
-                           href="/2021/02/25/Multi-system/"
-                        >安卓双系统的分析与实现</a>
-                        <span class="article-date">02-25</span>
-                    </li>
-                
-                    <li class="article-item">
-                        <a class="article-title"
-                           href="/2021/02/24/mpd/"
-                        >浅谈Linux下音乐app优劣</a>
-                        <span class="article-date">02-24</span>
-                    </li>
-                
-            </ul>
-        </section>
+    
+
+    
+    
+        <span class="article-wordcount article-meta-item">
+            <i class="fas fa-file-word"></i>&nbsp;<span>168 Words</span>
+        </span>
+    
+    
     
 </div>
 
+                    </div>
+                </div>
+            </div>
+        
+
+        <div class="article-content markdown-body">
+            <h4 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h4><p>替代ftp、ssh等工具向服务器上传文件或从服务器下载文件，也可在本机通过rsync替代cp、mv命令。默认情况下，rsync使用”quick check”算法快速检查源文件和目标文件的大小、mtime(修改时间)是否一致，如果不一致则需要传输。</p>
+<h4 id="常用命令"><a href="#常用命令" class="headerlink" title="常用命令"></a>常用命令</h4><p>[官网使用方法][“<a class="link"   target="_blank" rel="noopener" href="https://www.samba.org/ftp/rsync/rsync.html&quot;]" >https://www.samba.org/ftp/rsync/rsync.html&quot;]<i class="fas fa-external-link-alt"></i></a></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">$ rsync -a <span class="built_in">source</span> destination <span class="comment"># 递归，同步元信息</span></span><br><span class="line">$ rsync -anv <span class="built_in">source</span>/ destination <span class="comment"># 模拟结果，n模拟，v输出结果</span></span><br><span class="line">$ rsync -av --exclude <span class="string">&#x27;*.txt&#x27;</span> <span class="built_in">source</span>/ destination <span class="comment"># 忽略txt</span></span><br><span class="line">$ rsync -av --exclude=&#123;<span class="string">&#x27;file1.txt&#x27;</span>,<span class="string">&#x27;dir1/*&#x27;</span>&#125; <span class="built_in">source</span>/ destination</span><br><span class="line">$ rsync -av --include=<span class="string">&quot;*.txt&quot;</span> --exclude=<span class="string">&#x27;*&#x27;</span> <span class="built_in">source</span>/ destination</span><br></pre></td></tr></table></figure>
+
+
+        </div>
+
+        
+
+        
+            <div class="article-nav">
+                
+                
+                    <div class="article-next">
+                        <a class="next"
+                           rel="next"
+                           href="/2021/03/02/polybar%E8%B7%91%E9%A9%AC%E7%81%AF%E5%AE%9E%E6%97%B6%E6%8E%A8%E9%80%81up%E6%9C%80%E6%96%B0%E5%8A%A8%E6%80%81/"
+                        >
+                            <span class="title flex-center">
+                                <span class="post-nav-title-item">polybar跑马灯实时推送up最新动态</span>
+                                <span class="post-nav-item">Next posts</span>
+                            </span>
+                            <span class="right arrow-icon flex-center">
+                              <i class="fas fa-chevron-right"></i>
+                            </span>
+                        </a>
+                    </div>
+                
+            </div>
+        
+
+        
+            <div class="comment-container">
+                <div class="comments-container">
+    <div id="comment-anchor"></div>
+    <div class="comment-area-title">
+        <i class="fas fa-comments">&nbsp;Comments</i>
+    </div>
+    
+
+        
+            
+    <div class="valine-container">
+        <script 
+                src="//cdn.jsdelivr.net/npm/valine@latest/dist/Valine.min.js"></script>
+        <div id="vcomments"></div>
+        <script >
+            function loadValine() {
+                new Valine({
+                    el: '#vcomments',
+                    appId: 'omhjooDG9E5RWOpM8AAoAKhC-gzGzoHsz',
+                    appKey: 'TJhbP2v9Dh4aBqhHANlcHCCu',
+                    meta: ['nick', 'mail', 'link'],
+                    avatar: 'wavatar',
+                    enableQQ: true,
+                    placeholder: '尽情吐槽吧~',
+                    lang: 'en'.toLowerCase()
+                });
+
+                function getAuthor(language) {
+                    switch (language) {
+                        case 'en':
+                            return 'Author';
+                        case 'zh-CN':
+                            return '博主';
+                        default:
+                            return 'Master';
+                    }
+                }
+
+                // Add "Author" identify
+                const getValineDomTimer = setInterval(() => {
+                    const vcards = document.querySelectorAll('#vcomments .vcards .vcard');
+                    if (vcards.length > 0) {
+                        let author = 'mnsd';
+
+                        if (author) {
+                            for (let vcard of vcards) {
+                                const vnick_dom = vcard.querySelector('.vhead .vnick');
+                                const vnick = vnick_dom.innerHTML;
+                                if (vnick === author) {
+                                    vnick_dom.innerHTML = `${vnick} <span class="author">${getAuthor(KEEP.hexo_config.language)}</span>`
+                                }
+                            }
+                        }
+                        clearInterval(getValineDomTimer);
+                    } else {
+                        clearInterval(getValineDomTimer);
+                    }
+                }, 2000);
+            }
+
+            if ('false') {
+                const loadValineTimeout = setTimeout(() => {
+                    loadValine();
+                    clearTimeout(loadValineTimeout);
+                }, 1000);
+            } else {
+                window.addEventListener('DOMContentLoaded', loadValine);
+            }
+        </script>
+    </div>
+
+
+
+        
+    
+</div>
+
+            </div>
+        
     </div>
 </div>
+
 
                 
             </div>
@@ -234,6 +335,27 @@
         </div>
     </div>
 
+    
+        <div class="post-tools">
+            <div class="post-tools-container">
+    <ul class="tools-list">
+        <!-- TOC aside toggle -->
+        
+            <li class="tools-item page-aside-toggle">
+                <i class="fas fa-outdent"></i>
+            </li>
+        
+
+        <!-- go comment -->
+        
+            <li class="go-comment">
+                <i class="fas fa-comment"></i>
+            </li>
+        
+    </ul>
+</div>
+
+        </div>
     
 
     <div class="right-bottom-side-tools">
@@ -280,6 +402,14 @@
 
     </div>
 
+    
+        <aside class="page-aside">
+            <div class="post-toc-wrap">
+    <div class="post-toc">
+        <ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%AE%80%E4%BB%8B"><span class="nav-number">1.</span> <span class="nav-text">简介</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4"><span class="nav-number">2.</span> <span class="nav-text">常用命令</span></a></li></ol>
+    </div>
+</div>
+        </aside>
     
 
     <div class="image-viewer-container">
@@ -335,6 +465,8 @@
 
 
 <div class="post-scripts">
+    
+        <script src="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.4.1/source/js/left-side-toggle.js"></script><script src="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.4.1/source/js/libs/anime.min.js"></script><script src="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.4.1/source/js/toc.js"></script>
     
 </div>
 
